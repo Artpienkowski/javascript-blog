@@ -86,8 +86,7 @@ function generateTitleLinks(customSelector = ''){
 generateTitleLinks();
 
 function calculateTagsParams(tags){
-
-  const params = {max: 0 , min: 999999 };
+  const params = { max: 0, min: 999999 };
   for(let tag in tags){
     console.log(tag + ' is used ' + tags[tag] + ' times ');
     if(tags[tag] > params.max){
@@ -98,6 +97,7 @@ function calculateTagsParams(tags){
     }
   }
   return params;
+ 
 }
 
 
@@ -139,7 +139,7 @@ function generateTags(){
       html = html + linkHTML;
       
       /* [NEW] check if this link is NOT already in allTags */
-      if(!allTags.hasOwnProperty(tag)){
+      if(!allTags.hasOwnProperty(tag)) {
         
         /* [NEW] add tag to allTags object */
         allTags[tag] = 1;
@@ -175,7 +175,7 @@ function generateTags(){
   // START LOOP: for each tag in allTags
   for(let tag in allTags){
 
-    // generatecode of a link and add it to allTagsHTML
+    // generate code of a link and add it to allTagsHTML
     allTagsHTML += '<li><a href="#tag-' + tag + '">' + tag + '(' + allTags[tag] + ')' + '</a></li>';
   }
 
@@ -185,33 +185,45 @@ function generateTags(){
 
 
 generateTags();
-calculateTagsParams();
+
 function tagClickHandler(event){
   /* prevent default action for this event */
   event.preventDefault();
+  
   /* make new constant named "clickedElement" and give it the value of "this" */
   const clickedElement = this;
   console.log('Link was clicked!'); 
+
   /* make a new constant "href" and read the attribute "href" of the clicked element */
   const href = clickedElement.getAttribute('href');
+
   /* make a new constant "tag" and extract tag from the "href" constant */
-  const tag = href;
+  const tag = href.replace('#tag-', '');
+
   /* find all tag links with class active */
   const activeTagLinks = document.querySelectorAll('a.active[href^="#tag-"]');
+
   /* START LOOP: for each active tag link */
   for(let activeTagLink of activeTagLinks){
+
     /* remove class active */
     activeTagLink.classList.remove('active');
+
   /* END LOOP: for each active tag link */
   }
+
   /* find all tag links with "href" attribute equal to the "href" constant */
   const tagLinks = document.querySelectorAll('a[href="' + href + '"]');
+
   /* START LOOP: for each found tag link */
   for(let tagLink of tagLinks){
+    
     /* add class active */
     tagLink.classList.add('active');
+
   /* END LOOP: for each found tag link */
   }
+
   /* execute function "generateTitleLinks" with article selector as argument */
   generateTitleLinks('[data-tags~="' + tag + '"]');
 }
@@ -229,16 +241,16 @@ function addClickListenersToTags(){
 
 addClickListenersToTags();
 
-function generateAuthors(){
+function generateAuthors() {
   const articles = document.querySelectorAll(optArticleSelector);
   for(let article of articles){
-    const tagWrapper = article.querySelector(optArticleAuthorSelector);
+    const authorWrapper = article.querySelector(optArticleAuthorSelector);
     let html = '';
     const articleAuthor = article.getAttribute('data-author');
     console.log(articleAuthor);
     const linkHTML = '<a href="' + articleAuthor + '">' + articleAuthor +  '</a>';
     html = html + linkHTML;
-    tagWrapper.innerHTML = html;
+    authorWrapper.innerHTML = html;
     console.log(html);
     const links = document.querySelectorAll(optArticleAuthorSelector);
     console.log(links);
@@ -253,7 +265,7 @@ function authorClickHandler(event){
   console.log('Link was clicked!'); 
   const href = clickedElement.getAttribute('href');
   console.log(href);
-  const author = href.replace('#author-', ''); /* czemu tu też trzeba było dać replace? */
+  const author = href; /* czemu tu też trzeba było dać replace? */
   const activeAuthorLinks = document.querySelectorAll('.post-author a.active[href]');
   console.log(activeAuthorLinks);
   for(let activeAuthorLink of activeAuthorLinks){
