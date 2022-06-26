@@ -118,3 +118,26 @@ body {
     margin: 0 10px 0 0;
   }
 }
+
+ul.list.tags {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.list li .tag-size-1 {
+  font-size: 100%;
+}
+
+.list li .tag-size-3 {
+  font-size: 115%;
+}
+
+
+.list li .tag-size-5 {
+  font-size: 130%;
+}
+
+.list li a:link {
+  text-decoration: none;
+}
+
