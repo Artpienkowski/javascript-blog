@@ -156,17 +156,13 @@ function generateTags(){
       else {
         allTags[tag]++;
       }
-    
-    
+        
     /* END LOOP: for each tag */
     }
-    
-    
+        
     /* insert HTML of all the links into the tags wrapper */
     tagWrapper.innerHTML = html;
-    
-    
-  
+     
     /* END LOOP: for every article: */
   }
   
@@ -176,7 +172,6 @@ function generateTags(){
   /* [NEW] add html from allTags to tagList */
   //tagList.innerHTML = allTags.join(' ');
   
-
   // create variable for all links HTML code
   const tagsParams = calculateTagsParams(allTags);
   console.log('tagsParams:', tagsParams);
@@ -298,18 +293,12 @@ function generateAuthors() {
     console.log(links);
   }
     const authorList = document.querySelector(optAuthorsListSelector);
-    /*let allAuthorsHTML = '';
-    for(let articleAuthor in allAuthors){
-      const authorLinkHTML = '<li><a href="' + articleAuthor + '">' + articleAuthor + '</a></li>'
-      console.log('authorLinkHTML:' , authorLinkHTML);
-      allAuthorsHTML += authorLinkHTML;
-    }
-    authorList.innerHTML = allAuthorsHTML;*/
+    
     const authorsParams = calculateAuthorsParams(allAuthors);
     console.log('authorsParams:', authorsParams);
     let allAuthorsHTML = '';
     for(let articleAuthor in allAuthors){
-      const authorLinkHTML = '<li><a href=' + articleAuthor + '"' + ' ' + 'class="' + calculateAuthorClass(allAuthors[articleAuthor], authorsParams) + '">' + articleAuthor + ',' + '</a></li>'
+      const authorLinkHTML = '<li><a href="' + articleAuthor + '"'  +  ' ' + 'class="' + calculateAuthorClass(allAuthors[articleAuthor], authorsParams) + '">' + articleAuthor + ',' + '</a></li>'
       console.log('authorLinkHTML:' , authorLinkHTML);
     allAuthorsHTML += authorLinkHTML;
     }
@@ -324,10 +313,8 @@ function authorClickHandler(event){
   const clickedElement = this;
   console.log('Link was clicked!'); 
   const href = clickedElement.getAttribute('href');
-  console.log(href);
-  const author = href; /* czemu tu też trzeba było dać replace? */
+  const author = href; 
   const activeAuthorLinks = document.querySelectorAll('.post-author a.active[href]');
-  console.log(activeAuthorLinks);
   for(let activeAuthorLink of activeAuthorLinks){
     activeAuthorLink.classList.remove('active');
   }
