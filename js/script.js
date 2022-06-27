@@ -1,4 +1,18 @@
+
+/* 
+1. Dlaczego link autorów w chmurze nie działają?
+2. dlaczego zmienił się wygląd linku autora pod tytułem artykułu?
+
+*/
 'use strict';
+
+const templates = {
+  articleLink: Handlebars.compile(document.querySelector('#template-article-link').innerHTML),
+  tagLink: Handlebars.compile(document.querySelector('#template-tag-link').innerHTML),
+  authorLink: Handlebars.compile(document.querySelector('#template-author-link').innerHTML),
+  tagCloudLink: Handlebars.compile(document.querySelector('#template-tag-cloud-link').innerHTML),
+  authorCloudLink: Handlebars.compile(document.querySelector('#template-author-cloud-link').innerHTML),
+};
 
 function titleClickHandler(event){
   event.preventDefault();
@@ -71,7 +85,8 @@ function generateTitleLinks(customSelector = ''){
     /* get the title from the title element */
         
     /* create HTML of the link */
-    const linkHTML = '<li><a href="#' + articleId + '"><span>' + articleTitle + '</span></a></li>';
+    const linkHTMLData = {id: articleId, title: articleTitle};
+    const linkHTML = templates.articleLink(linkHTMLData);
     console.log(linkHTML);
     /* insert link into html variable */
     html = html + linkHTML;
@@ -141,7 +156,10 @@ function generateTags(){
       
       
       /* generate HTML of the link */
-      const linkHTML = '<li><a href="#tag-' + tag + '">' + tag + ',' + '</a></li>';
+      const linkHTMLData = {id: tag, title: tag};
+      const linkHTML = templates.tagLink(linkHTMLData);
+
+      //const linkHTML = '<li><a href="#tag-' + tag + '">' + tag + ',' + '</a></li>';
       
       
       /* add generated code to html variable */
@@ -175,7 +193,7 @@ function generateTags(){
   // create variable for all links HTML code
   const tagsParams = calculateTagsParams(allTags);
   console.log('tagsParams:', tagsParams);
-  let allTagsHTML = '';
+  const allTagsData = {tags: []};
   
   // START LOOP: for each tag in allTags
   for(let tag in allTags){
@@ -183,11 +201,16 @@ function generateTags(){
     // generate code of a link and add it to allTagsHTML
     const tagLinkHTML = '<li><a href="#tag-' + tag + '"' + ' ' + 'class="' + calculateTagClass(allTags[tag], tagsParams) + '">' + tag + ',' + '</a></li>'
     console.log('tagLinkHTML:' , tagLinkHTML);
-    allTagsHTML += tagLinkHTML;
+    allTagsData.tags.push({
+      tag: tag,
+      count: allTags[tag],
+      className: calculateTagClass(allTags[tag], tagsParams)
+    });
   }
 
   // add html from allTagsHTML to tagList
-  tagList.innerHTML = allTagsHTML;
+  tagList.innerHTML = templates.tagCloudLink(allTagsData);
+  console.log('allTagsData:', allTagsData);
 }
 
 
@@ -278,7 +301,8 @@ function generateAuthors() {
     let html = '';
     const articleAuthor = article.getAttribute('data-author');
     console.log(articleAuthor);
-    const linkHTML = '<a href="' + articleAuthor + '">' + articleAuthor +  '</a>';
+    const linkHTMLData = {id: articleAuthor, title: articleAuthor};
+    const linkHTML = templates.authorLink(linkHTMLData);
     
     if(!allAuthors.hasOwnProperty(articleAuthor)) {
       allAuthors[articleAuthor] = 1;
@@ -296,13 +320,19 @@ function generateAuthors() {
     
     const authorsParams = calculateAuthorsParams(allAuthors);
     console.log('authorsParams:', authorsParams);
-    let allAuthorsHTML = '';
+    //let allAuthorsHTML = '';
+    const allAuthorsData = {authors: []}
     for(let articleAuthor in allAuthors){
       const authorLinkHTML = '<li><a href="' + articleAuthor + '"'  +  ' ' + 'class="' + calculateAuthorClass(allAuthors[articleAuthor], authorsParams) + '">' + articleAuthor + ',' + '</a></li>'
       console.log('authorLinkHTML:' , authorLinkHTML);
-    allAuthorsHTML += authorLinkHTML;
+    //allAuthorsHTML += authorLinkHTML;
+    allAuthorsData.authors.push({
+      articleAuthor: articleAuthor,
+      count: allAuthors[articleAuthor],
+      className: calculateTagClass(allAuthors[articleAuthor], authorsParams)
+    });
     }
-    authorList.innerHTML = allAuthorsHTML;
+    authorList.innerHTML = templates.authorCloudLink(allAuthorsData);
 }
 
 
