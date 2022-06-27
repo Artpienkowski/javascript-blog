@@ -1,7 +1,7 @@
 
 /* 
 1. Dlaczego link autorów w chmurze nie działają?
-2. dlaczego zmienił się wygląd linku autora pod tytułem artykułu?
+2. dlaczego zmienił się wygląd linku autora pod tytułem artykułu i także przestał działać?
 
 */
 'use strict';
@@ -129,13 +129,10 @@ function calculateTagClass (count , params){
 function generateTags(){
   /* [NEW] create a new variable allTags with an empty array */
   let allTags = {};
-  
-  
   /* find all articles */
   const articles = document.querySelectorAll(optArticleSelector);
   
   /* START LOOP: for every article: */
-  
   for(let article of articles){
     /* find tags wrapper */
     const tagWrapper = article.querySelector(optArticleTagsSelector);
@@ -187,9 +184,6 @@ function generateTags(){
   /* [NEW] find list of tags in right column */
   const tagList = document.querySelector(optTagsListSelector);
 
-  /* [NEW] add html from allTags to tagList */
-  //tagList.innerHTML = allTags.join(' ');
-  
   // create variable for all links HTML code
   const tagsParams = calculateTagsParams(allTags);
   console.log('tagsParams:', tagsParams);
@@ -199,8 +193,8 @@ function generateTags(){
   for(let tag in allTags){
 
     // generate code of a link and add it to allTagsHTML
-    const tagLinkHTML = '<li><a href="#tag-' + tag + '"' + ' ' + 'class="' + calculateTagClass(allTags[tag], tagsParams) + '">' + tag + ',' + '</a></li>'
-    console.log('tagLinkHTML:' , tagLinkHTML);
+    /* const tagLinkHTML = '<li><a href="#tag-' + tag + '"' + ' ' + 'class="' + calculateTagClass(allTags[tag], tagsParams) + '">' + tag + ',' + '</a></li>'
+    console.log('tagLinkHTML:' , tagLinkHTML);*/
     allTagsData.tags.push({
       tag: tag,
       count: allTags[tag],
@@ -316,16 +310,14 @@ function generateAuthors() {
     const links = document.querySelectorAll(optArticleAuthorSelector);
     console.log(links);
   }
+
     const authorList = document.querySelector(optAuthorsListSelector);
-    
     const authorsParams = calculateAuthorsParams(allAuthors);
     console.log('authorsParams:', authorsParams);
-    //let allAuthorsHTML = '';
     const allAuthorsData = {authors: []}
     for(let articleAuthor in allAuthors){
-      const authorLinkHTML = '<li><a href="' + articleAuthor + '"'  +  ' ' + 'class="' + calculateAuthorClass(allAuthors[articleAuthor], authorsParams) + '">' + articleAuthor + ',' + '</a></li>'
-      console.log('authorLinkHTML:' , authorLinkHTML);
-    //allAuthorsHTML += authorLinkHTML;
+      /*const authorLinkHTML = '<li><a href="' + articleAuthor + '"'  +  ' ' + 'class="' + calculateAuthorClass(allAuthors[articleAuthor], authorsParams) + '">' + articleAuthor + ',' + '</a></li>'
+      console.log('authorLinkHTML:' , authorLinkHTML);*/
     allAuthorsData.authors.push({
       articleAuthor: articleAuthor,
       count: allAuthors[articleAuthor],
