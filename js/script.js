@@ -335,7 +335,7 @@ function authorClickHandler(event){
   const clickedElement = this;
   console.log('Link was clicked!'); 
   const href = clickedElement.getAttribute('href');
-  const author = href; 
+  const author = href.replace("#" , ''); 
   const activeAuthorLinks = document.querySelectorAll('.post-author a.active[href]');
   for(let activeAuthorLink of activeAuthorLinks){
     activeAuthorLink.classList.remove('active');
@@ -349,7 +349,7 @@ function authorClickHandler(event){
 }
 
 function addClickListenersToAuthors(){
-  const authorLinks = document.querySelectorAll('.post-author a[href]');
+  const authorLinks = document.querySelectorAll('.post-author a[href], .authors a');
   /* START LOOP: for each link */
   for(let authorLink of authorLinks){
     
